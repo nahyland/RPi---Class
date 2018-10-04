@@ -11,9 +11,7 @@ from ADS1115 import config_reg, convert_value, read_adc
 from PCA9685_H import init, set_freq, set_pwm, set_all_pwm, chan_set
 
 # Import libraries
-import smbus  #System Management Bus Functions
-import time
-import math 
+import smbus, time, math
 
 ## ADS1115 Code ##
 
