@@ -1,0 +1,51 @@
+# ME 5731 Project 2: Part 3
+# Author: Harrison Seung and Nicholas Hyland
+# Group: 9
+# Description: Create a code to control the provided robot with 8 outputs and 4 inputs
+
+##- Methodology -##
+Givens:
+	Azimuth rotation @ 3 sec / rev
+	Vertical translation @ 12 inch / 8 sec
+	Arm translation @ 12 inch / 2 sec
+	Fork rotation @ 2 sec / rev
+	Inputs are 10-turn potentiometers
+		~1k-4kOhm resistance, 0-5V output, internally powered
+
+Initialization program - Discover directions of motor outputs
+
+
+##- Connections -##
+Connection to robot is achieved across middle section of a breadboard
+	8 pin rows on each side, total 16 pins
+
+Pin Configuration
+	1,2	Azimuth		Rotation	PWM
+	3,4	Vertical	Translation	PWM
+	5,6	Arm		Translation	PWM
+	7,8	Fork		Rotation	PWM
+	9,10	N/A
+	11	Azimuth		Feedback	0-5V
+	12	Vertical	Feedback	0-5V
+	13	Arm		Feedback	0-5V
+	14	Fork		Feedback	0-5V
+	15	Ground
+	16	No Connect
+
+	 16 15 14 13 12 11 10 9 
+	|----------------------|
+	|o  o  o  o  o  o  o  o|
+	|                      |
+	|o  o  o  o  o  o  o  o|
+	|----------------------|
+	 1  2  3  4  5  6  7  8
+
+
+
+
+
+
+
+
+
+
