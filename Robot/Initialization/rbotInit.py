@@ -20,7 +20,7 @@ from ADS1115.ADS1115 import ADS_CONFIG_GAIN
 from PCA9685 import PCA9685
 
 # Setup Variables/Arrays
-leddir = [0,0,0,0]
+leddir = [0,0,0,0]					# Creates matrix to store motor direction values
 
 
 
@@ -39,29 +39,34 @@ def calcDC(value):
 	dc = (value / value_max) * dc_max
 	return int(math.floor(dc))
 
-# Direction Setter
+# Direction Setter/verification of direction
 def dirset():
-	for i in range (1, 4):
-		value = readAnalog(i)	# Baseline
+	for i in range (0, 3):			# Runs through all 4 motor/sensor sets
+		value = readAnalog(i)		# Baseline
 		dc_base = calcDC(value)
+		setMotor(50)				# Activate motor for 0.1 sec at 50% duty cycle
 
-		setMotor(50)
+		# send signal to first LED out (i.e. LED0)	(needs work)
+		pca.set_pwm(i ,1 ,0)		# Use first channel to move motor
 		time.sleep(0.1)
-	
+		pca.set_pwm(i ,0 ,0)		# Stops PWM signal to first channel
+		
 		value = readAnalog(led#)	# new value, in direction
-		dc = calcDC(value)
+		dc = calcDC(value)			# calculate new position from sensor
+		time.sleep(0.001)
 
-		setMotor(dc)
+		# send signal to opposite LED out (i.e. LED1)
+		pca.set_pwm(i + 1, 1, 0)			# Activate motor, return to start position at 50% duty cycle
 		time.sleep(0.1)
-		setMotor(0)
-
+		pca.set_pwm(i + 1, 0, 0)
+		
 		dc_dir = dc - dc_base		# Sets direction as 1 or -1
 		if(dc_dir > 0):
-			led_dir[i] = 1
+			led_dir[i] = 1			# 1 means that first out is positive (i.e. LED0 is forward)
 		elif(dc_dir < 0):
-			led_dir[i] = -1
+			led_dir[i] = -1			# -1 means that second out is positive (i.e. LED 1 is foward)
 		else:
-			pca.set_pwm(1, 0, 0)
+			pca.set_pwm(1, 0, 0)	
 			break
 		return led_dir
 
@@ -73,3 +78,14 @@ def dirset():
 
 pca.start()
 pca.set_freq(500)
+
+
+dirset()
+
+
+def set_pwm(self, channel, on, off): #set pwm
+		bus = smbus.SMBus(1)
+		bus.write_byte_data(PCA_ADDR, LED0_ON_L + 4*channel, on & 0xFF)
+		bus.write_byte_data(PCA_ADDR, LED0_ON_H + 4*channel, on >> 8)
+		bus.write_byte_data(PCA_ADDR, LED0_OFF_L + 4*channel, off & 0xFF)
+		bus.write_byte_data(PCA_ADDR, LED0_OFF_H + 4*channel, off >> 8)
