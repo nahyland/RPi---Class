@@ -44,30 +44,43 @@ def dirset():
 	for i in range (0, 3):			# Runs through all 4 motor/sensor sets
 		value = readAnalog(i)		# Baseline
 		dc_base = calcDC(value)
-		setMotor(50)				# Activate motor for 0.1 sec at 50% duty cycle
 
 		# send signal to first LED out (i.e. LED0)	(needs work)
-		pca.set_pwm(i ,1 ,0)		# Use first channel to move motor
+		pca.set_pwm(i ,0 ,2082)		# Use first channel to move motor
 		time.sleep(0.1)
 		pca.set_pwm(i ,0 ,0)		# Stops PWM signal to first channel
-		
-		value = readAnalog(led#)	# new value, in direction
+
+		value = readAnalog(i)	# new value, in direction
 		dc = calcDC(value)			# calculate new position from sensor
 		time.sleep(0.001)
 
 		# send signal to opposite LED out (i.e. LED1)
-		pca.set_pwm(i + 1, 1, 0)			# Activate motor, return to start position at 50% duty cycle
+		pca.set_pwm(i + 1, 0, 2082)			# Activate motor, return to start position at 50% duty cycle
 		time.sleep(0.1)
 		pca.set_pwm(i + 1, 0, 0)
-		
-		dc_dir = dc - dc_base		# Sets direction as 1 or -1
-		if(dc_dir > 0):
+
+		dc_dir = dc - dc_base
+		if abs(dc_dir) < 0.01:
+			dc_base = dc
+			value = readAnalog(i)
+			dc = calcDC(value)
+			dc_dir = dc_base - dc
+
+			pca.set_pwm(i, 0, 2082)
+			time.sleep(0.1)
+			pca.set_pwm(i, 0, 2082)
+
+		if(dc_dir > 0.01):			# sets direction as 1 or -1
 			led_dir[i] = 1			# 1 means that first out is positive (i.e. LED0 is forward)
-		elif(dc_dir < 0):
+		elif(dc_dir < -0.01):
 			led_dir[i] = -1			# -1 means that second out is positive (i.e. LED 1 is foward)
 		else:
-			pca.set_pwm(1, 0, 0)	
-			break
+			value = readAnalog(i)
+			dc_post = calcDC(value)
+			pca.set_pwm(1, 0, 0)
+			pca.set_pwm(i, 0, 2082)
+			time.sleep(0.1)
+			pca.set_pwm(i, 0, 2082)
 		return led_dir
 
 
