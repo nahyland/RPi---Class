@@ -27,8 +27,8 @@ leddir = [0,0,0,0]								# Creates matrix to store motor direction values
 # -- Define rbotInit Class -- #
 class rbotInit(object):
 	# Read from ADS1115, convert the analog signal pulled from ADS into 0 to 100 range
-	def readDC(channel):
-		if channel < 5:
+	def readDC(self, channel):
+		if channel < 4:
 			config = ads.config_reg(mux = ADS_CONFIG_MUX[channel], gain = ADS_CONFIG_GAIN[1])
 			value = ads.read_adc(config)
 			value_max = 32768
@@ -37,7 +37,7 @@ class rbotInit(object):
 			return int(math.floor(dc))
 
 	# Direction Setter/verification of direction
-	def dirset():
+	def dirset(self):
 		for i in range (4):						# Runs through all 4 motor/sensor sets
 			dc_base = self.readDC(i)			# Reads initial value at starting position
 
@@ -56,8 +56,9 @@ class rbotInit(object):
 			dc_post = self.readDC(i)			# Records value after movement cycle to check against initial position
 
 			dc_dir = dc - dc_base
-			if abs(dc_dir/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output
+			dc_trav = dc_post - dc_base			# This is the travel distance between initial and final position (should be ~0)
 
+			if abs(dc_trav/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output, in %
 				pca.set_pwm(2 * i, 0, 2082)
 				time.sleep(0.1)
 				dc_base = self.readDC(i)		# Sets new initial, to be consistent with directions
