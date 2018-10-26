@@ -46,7 +46,7 @@ while dc > 0:
 
 #Start Program#
 
-#- Import ans setup classes -#
+#- Import and setup classes -#
 # ADS1115
 from ADS1115 import ADS1115
 from ADS1115.ADS1115 import ADS_CONFIG_MUX
