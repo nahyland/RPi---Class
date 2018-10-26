@@ -20,7 +20,9 @@ from ADS1115.ADS1115 import ADS_CONFIG_GAIN
 from PCA9685 import PCA9685
 
 # Setup Variables/Arrays
-leddir = [0,0,0,0]								# Creates matrix to store motor direction values
+ads = ADS1115.ADS1115()
+
+leddir = [-1,-1,-1,-1]								# Creates matrix to store motor direction values
 ## End Initialize ##
 
 
@@ -67,9 +69,9 @@ class rbotInit(object):
 				dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
 
 			if(dc_dir > 0):						# sets direction as 1 or -1
-				led_dir[i / 2] = 1				# 1 means that first out is positive (i.e. LED0 is forward)
+				led_dir[i] = 0					# 1 means that first out is positive (i.e. LED0 is forward)
 			elif(dc_dir < 0):
-				led_dir[i / 2] = -1				# -1 means that second out is positive (i.e. LED 1 is foward)
+				led_dir[i] = 1					# -1 means that second out is positive (i.e. LED 1 is foward)
 			else:
 				pca.set_pwm(1, 0, 0)
 				print("Feedback not responding on motor", i)
