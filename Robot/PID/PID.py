@@ -29,6 +29,8 @@ pread = PosRead.PosRead()
 # Matrices(lists)
 ptstore = [0,0,0:0,0,0;0,0,0;0,0,0]
 loopcount = 0
+startpos[0,0,0,0]
+rbotdist = [0,0,0,0]
 sumval = [0,0,0,0]
 intgl = [0,0,0,0]
 dslope = [0,0,0,0]
@@ -54,8 +56,8 @@ class PID(object):
 					else:
 
 					# Proportional
-					rbotdist = (rbotwant - rbotposit[motor])/(poslimit[2]-poslimit[1])
-					pmove = ?
+					for i in range (0, 4):
+						rbotdist[i] = (rbotwant - ptstore[i, 0])/(poslimit[2]-poslimit[1])
 
 					# Integral, Simpson's Composite Rule
 					if loopcount > 2
@@ -69,15 +71,14 @@ class PID(object):
 
 
 
-					# Derivative
-					use 3 points to determine slope
+					# Derivative, use 3 points to determine slope
 					for i in range (0, 4):
 						dslope[i] = (ptstore[i, 2]+ptstore[i, 1]+ptstore[i, 0])/3
 
+					# Combining terms
+					for i in range (0, 4):
+						moveout[i] = (rbotdist[i] +intgl[i] +dslope[i])*4096 -1
+						pca.set_pwm(i, 0, moveout[i])
 
-
-		# Combining terms
-
-
-
+					time.sleep(0.002)			# 500Hz operating frequency
 #- End Class -#
