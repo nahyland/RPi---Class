@@ -73,6 +73,7 @@ class rbotInit(object):
 
 					dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
 				else:
+					
 			else:
 
 			if(dc_dir > 0):						# sets direction as 1 or -1
