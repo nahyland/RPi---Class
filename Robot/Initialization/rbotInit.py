@@ -43,6 +43,7 @@ class rbotInit(object):
 	def dirset(self):
 		for i in range (0, 4):						# Runs through all 4 motor/sensor sets
 			dc_base = self.readDC(i)			# Reads initial value at starting position
+			print("dc_base", dc_base)
 
 			# send signal to first LED out (i.e. LED0)
 			pca.set_pwm(2 * i ,0 ,2082)			# Activates first channel to move motor
@@ -50,6 +51,7 @@ class rbotInit(object):
 			pca.set_pwm(2 * i ,0 ,0)			# Stops PWM signal to first channel
 
 			dc = self.readDC(i)					# Calculate new position from sensor
+			print("dc", dc)
 			time.sleep(0.001)
 
 			# send signal to opposite LED out (i.e. LED1) return to start position at 50% duty cycle
@@ -57,6 +59,7 @@ class rbotInit(object):
 			time.sleep(0.1)
 			pca.set_pwm(2 * i + 1, 0, 0)
 			dc_post = self.readDC(i)			# Records value after movement cycle to check against initial position
+			print("dc_post", dc_post)
 
 			dc_dir = dc - dc_base
 			dc_trav = dc_post - dc_base			# This is the travel distance between initial and final position (should be ~0)
