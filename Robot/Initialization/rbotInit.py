@@ -73,9 +73,11 @@ class rbotInit(object):
 
 					dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
 				else:
-					
-			else:
+					# placeholder
 
+			else:
+				# placeholder
+			
 			if(dc_dir > 0):						# sets direction as 1 or -1
 				leddir[i] = 0					# 1 means that first out is positive (i.e. LED0 is forward)
 			elif(dc_dir < 0):
