@@ -41,7 +41,7 @@ class rbotInit(object):
 
 	# Direction Setter/verification of direction
 	def dirset(self):
-		for i in range (4):						# Runs through all 4 motor/sensor sets
+		for i in range (0, 4):						# Runs through all 4 motor/sensor sets
 			dc_base = self.readDC(i)			# Reads initial value at starting position
 
 			# send signal to first LED out (i.e. LED0)
