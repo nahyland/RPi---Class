@@ -47,7 +47,7 @@ class rbotInit(object):
 
 			# send signal to first LED out (i.e. LED0)
 			pca.set_pwm(2 * i ,0 ,2082)			# Activates first channel to move motor
-			time.sleep(0.5)
+			time.sleep(0.1)
 			pca.set_pwm(2 * i ,0 ,0)			# Stops PWM signal to first channel
 
 			dc = self.readDC(i)					# Calculate new position from sensor
@@ -56,7 +56,7 @@ class rbotInit(object):
 
 			# send signal to opposite LED out (i.e. LED1) return to start position at 50% duty cycle
 			pca.set_pwm(2 * i + 1, 0, 2082)
-			time.sleep(0.5)
+			time.sleep(0.1)
 			pca.set_pwm(2 * i + 1, 0, 0)
 			dc_post = self.readDC(i)			# Records value after movement cycle to check against initial position
 			print("dc_post", dc_post)
@@ -66,7 +66,7 @@ class rbotInit(object):
 
 			if abs(dc_trav/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output, in %
 				pca.set_pwm(2 * i, 0, 2082)
-				time.sleep(0.5)
+				time.sleep(0.1)
 				dc_base = self.readDC(i)		# Sets new initial, to be consistent with directions
 				pca.set_pwm(2 * i, 0, 0)
 
@@ -79,7 +79,7 @@ class rbotInit(object):
 			else:
 				pca.set_pwm(1, 0, 0)
 				print("Feedback not responding on motor", i)
-			return leddir
+		return leddir
 # -- End Class -- #
 
 ###- Code Needed to start -###
