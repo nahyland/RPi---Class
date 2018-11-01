@@ -21,6 +21,7 @@ from PCA9685 import PCA9685
 
 # Setup Variables/Arrays
 ads = ADS1115.ADS1115()
+pca = PCA9685.PCA9685()
 
 leddir = [-1,-1,-1,-1]								# Creates matrix to store motor direction values
 ## End Initialize ##
