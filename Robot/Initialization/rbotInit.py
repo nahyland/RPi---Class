@@ -64,13 +64,16 @@ class rbotInit(object):
 			dc_dir = dc - dc_base
 			dc_trav = dc_post - dc_base			# This is the travel distance between initial and final position (should be ~0)
 
-			if abs(dc_trav/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output, in %
-				pca.set_pwm(2 * i, 0, 2082)
-				time.sleep(0.1)
-				dc_base = self.readDC(i)		# Sets new initial, to be consistent with directions
-				pca.set_pwm(2 * i, 0, 0)
+			if dc != 0:
+				if abs(dc_trav/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output, in %
+					pca.set_pwm(2 * i, 0, 2082)
+					time.sleep(0.1)
+					dc_base = self.readDC(i)		# Sets new initial, to be consistent with directions
+					pca.set_pwm(2 * i, 0, 0)
 
-				dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
+					dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
+				else:
+			else:
 
 			if(dc_dir > 0):						# sets direction as 1 or -1
 				leddir[i] = 0					# 1 means that first out is positive (i.e. LED0 is forward)
