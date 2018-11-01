@@ -79,6 +79,7 @@ class rbotInit(object):
 			else:
 				pca.set_pwm(1, 0, 0)
 				print("Feedback not responding on motor", i)
+				
 		return leddir
 # -- End Class -- #
 
