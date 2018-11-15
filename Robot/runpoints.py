@@ -36,6 +36,6 @@ pca.set_freq(500)
 rbot.dirset()
 wpts.waypoint()
 
-for i in range (0, 6)
+for i in range (0, 7)
 	bbcon.bangbang(leddir, waypt[i], dcwant)
 	print("Moving to waypoint", i+1)
