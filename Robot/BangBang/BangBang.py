@@ -22,13 +22,9 @@ from PosRead import PosRead
 ads = ADS1115.ADS1115()
 pca = PCA9685.PCA9685()
 rbot = rbotInit.rbotInit()
-pread = PosRead.PosRead()
-
-
 
 # Matrices(lists)
 ptstore = [0,0,0]
-startpos[0,0,0,0]
 #- End Initialize -#
 
 
@@ -43,7 +39,7 @@ class PID(object):
 				ptstore[i] = ads.convertALL()
 
 				# Moving and Stopping
-				if rbotwant[i] ==ptstore[i]:
+				if rbotwant[i] == ptstore[i]:
 					pca.set_pwm(i, 0, dcin)
 				else:
 					pca.set_pwm(i, 0, 0)
