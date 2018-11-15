@@ -24,38 +24,29 @@ pca = PCA9685.PCA9685()
 rbot = rbotInit.rbotInit()
 pread = PosRead.PosRead()
 
-linmax = 7
-degmax = 180
+
 
 # Matrices(lists)
-ptstore = [0,0,0;0,0,0]
+ptstore = [0,0,0]
 startpos[0,0,0,0]
-rbotdist = [0,0,0,0]
-sumval = [0,0,0,0]
-intgl = [0,0,0,0]
-dslope = [0,0,0,0]
 #- End Initialize -#
 
 
 #- Class -#
 class PID(object):
-	def bangbang(leddir, rbotwant, holdt):		#  holdt is the time to hold end position *500
+	def bangbang(leddir, rbotwant, dcspeed):
+		dcin = math.floor(dcspeed * 4096 - 1)
 		# Loop continues until all positions are at rbotwant positions
-		while ptstore[i, 0]!=rbotwant[0] & ptstore[i, 1]!=rbotwant[1] & ptstore[i, 2]!=rbotwant[2] & ptstore[i, 3]!=rbotwant[3]
-			loopcount += 1
-			# Storing old values for Integrator and Differentiator, 0 is current, 1 is last, 2 is oldest
+		while ptstore[i, 0]!=rbotwant[0] & ptstore[i, 1]!=rbotwant[1] & ptstore[i, 2]!=rbotwant[2]
 			for i in range (0,2):
-				# Record new position values
-				ptstore[i] = pread.rbotpos()
+				# Measure current position
+				ptstore[i] = ads.convertALL()
 
-				#
-				for i in range (0, 2):
-
-
-				# Combining terms
-				for i in range (0, 2):
-					moveout[i] = (rbotdist[i] +intgl[i] +dslope[i])*4096 -1
-					pca.set_pwm(i, 0, moveout[i])
+				# Moving and Stopping
+				if rbotwant[i] ==ptstore[i]:
+					pca.set_pwm(i, 0, dcin)
+				else:
+					pca.set_pwm(i, 0, 0)
 
 				time.sleep(0.002)			# 500Hz operating frequency
 #- End Class -#
