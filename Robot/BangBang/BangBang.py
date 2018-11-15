@@ -14,8 +14,6 @@ from ADS1115.ADS1115 import ADS_CONFIG_MUX
 from ADS1115.ADS1115 import ADS_CONFIG_GAIN
 # PCA9685
 from PCA9685 import PCA9685
-# rbotInit
-from Initialization import rbotInit
 # PosRead
 from PosRead import PosRead
 
@@ -41,7 +39,7 @@ dslope = [0,0,0,0]
 
 #- Class -#
 class PID(object):
-	def bangbangc(leddir, rbotwant, holdt):		#  holdt is the time to hold end position *500
+	def bangbang(leddir, rbotwant, holdt):		#  holdt is the time to hold end position *500
 		# Loop continues until all positions are at rbotwant positions
 		while ptstore[i, 0]!=rbotwant[0] & ptstore[i, 1]!=rbotwant[1] & ptstore[i, 2]!=rbotwant[2] & ptstore[i, 3]!=rbotwant[3]
 			loopcount += 1
