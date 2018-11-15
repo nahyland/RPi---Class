@@ -46,7 +46,7 @@ class rbotInit(object):
 			print("dc_base", dc_base)
 
 			# send signal to first LED out (i.e. LED0)
-			pca.set_pwm(2 * i ,0 ,2082)			# Activates first channel to move motor
+			pca.set_pwm(2 * i ,0 ,1041)			# Activates first channel to move motor
 			time.sleep(0.1)
 			pca.set_pwm(2 * i ,0 ,0)			# Stops PWM signal to first channel
 
@@ -55,7 +55,7 @@ class rbotInit(object):
 			time.sleep(0.001)
 
 			# send signal to opposite LED out (i.e. LED1) return to start position at 50% duty cycle
-			pca.set_pwm(2 * i + 1, 0, 2082)
+			pca.set_pwm(2 * i + 1, 0, 1041)
 			time.sleep(0.1)
 			pca.set_pwm(2 * i + 1, 0, 0)
 			dc_post = self.readDC(i)			# Records value after movement cycle to check against initial position
@@ -66,14 +66,14 @@ class rbotInit(object):
 
 			if dc != 0:
 				if abs(dc_trav/dc) < 0.01:			# Check to see if the robot is at the end of travel on an output, in %
-					pca.set_pwm(2 * i, 0, 2082)
+					pca.set_pwm(2 * i, 0, 1041)
 					time.sleep(0.1)
 					dc_base = self.readDC(i)		# Sets new initial, to be consistent with directions
 					pca.set_pwm(2 * i, 0, 0)
 
 					dc_dir = dc_base - dc			# Secondary motion is in -initial direction, so end value stays the same
 
-			
+
 			if(dc_dir > 0):						# sets direction as 1 or -1
 				leddir[i] = 0					# 1 means that first out is positive (i.e. LED0 is forward)
 			elif(dc_dir < 0):
